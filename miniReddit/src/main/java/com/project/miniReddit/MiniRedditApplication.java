@@ -33,7 +33,8 @@ public class MiniRedditApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... arg0) {
-		User user = User.builder()
+
+		/*User user = User.builder()
 				.email("abc@gmail.com")
 				.created(Instant.now())
 				.username("abc")
@@ -63,7 +64,7 @@ public class MiniRedditApplication implements CommandLineRunner {
 		userRepository.save(user);
 
 		Optional<Subreddit> sub = subredditRepository.findById(subreddit.getSubredditId());
-		System.out.println(sub.get());
+		System.out.println(sub.get()); */
 
 	}
 }
