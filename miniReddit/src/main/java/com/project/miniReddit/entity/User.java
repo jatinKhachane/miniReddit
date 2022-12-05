@@ -20,7 +20,7 @@ import java.time.Instant;
 @Builder
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userId;
     @NotBlank(message = "Username is required")
     private String username;
