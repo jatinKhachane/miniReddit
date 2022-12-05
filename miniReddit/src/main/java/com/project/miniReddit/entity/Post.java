@@ -1,6 +1,6 @@
 package com.project.miniReddit.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.Nullable;
