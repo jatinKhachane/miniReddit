@@ -49,6 +49,7 @@ public class AuthService {
     }
 
     public AuthenticationResponse login(LoginRequest loginRequest) throws Exception{
+
         //authenticate from AuthenticationManager
         System.out.println(loginRequest.getUsername());
         Authentication authenticate = null;
@@ -57,6 +58,7 @@ public class AuthService {
         }catch(Exception e){
             throw new Exception(e.getMessage());
         }
+
         // enable the user
         User user = userRepository.findByUsername(loginRequest.getUsername()).orElseThrow(() -> new SpringRedditException("User Not Found with id - " + loginRequest.getUsername()));
         user.setEnabled(true);
