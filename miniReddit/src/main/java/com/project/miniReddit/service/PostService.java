@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -69,5 +70,20 @@ public class PostService {
                 .build();
 
         return postResponseDto;
+    }
+
+    public PostResponseDto getPost(Long id) {
+        Post post = postRepository.getById(id);
+        return mapToPostResponseDto(post);
+    }
+
+    public List<PostResponseDto> getPostsByUser(Long u_id) {
+        List<Post> posts = postRepository.getAllPostsByUserId(u_id);
+        return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
+    }
+
+    public List<PostResponseDto> getPostsBySubreddit(Long s_id) {
+        List<Post> posts = postRepository.getAllPostsBySubredditId(s_id);
+        return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
     }
 }
