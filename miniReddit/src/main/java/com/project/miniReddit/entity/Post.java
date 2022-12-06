@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.lang.Nullable;
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Entity
@@ -22,12 +23,19 @@ public class Post {
     private Integer voteCount;
     private Instant createdDate;
 
+    //Author of the Post
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+
+    //Subreddit of the post
     @ManyToOne
     @ToString.Exclude
     @JoinColumn(name = "subreddit_id")
     private Subreddit subreddit;
+
+    //Users saved/bookmarked this post
+    @ManyToMany
+    private List<User> userswholiked;
 }

@@ -1,15 +1,14 @@
 package com.project.miniReddit.entity;
 
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.Instant;
+import java.util.List;
 
 
 @Data
@@ -31,4 +30,9 @@ public class User {
     private String email;
     private Instant created;
     private boolean enabled;
+
+    //posts that are saved by user
+    @ManyToMany(mappedBy = "userswholiked")
+    @ToString.Exclude
+    private List<Post> likedposts;
 };
