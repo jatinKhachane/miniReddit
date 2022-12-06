@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface SubredditRepository extends JpaRepository<Subreddit, Long> {
     List<Post> findAllByPosts(Long id);
+    Subreddit findByName(String name);
 }
