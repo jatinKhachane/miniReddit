@@ -21,11 +21,11 @@ public class Comment {
     private Long id;
     @NotEmpty
     private String text;
+    private Instant createdDate;
 
     @ManyToOne
     @JoinColumn(name = "postId")
     private Post post;
-    private Instant createdDate;
 
     @ManyToOne
     @JoinColumn(name = "userId")
