@@ -38,6 +38,7 @@ public class PostService {
                 .createdDate(Instant.now())
                 .user(authService.getCurrentUser())
                 .subreddit(subreddit)
+                .voteCount(0)
                 .build();
 
         postRepository.save(post);
@@ -67,6 +68,7 @@ public class PostService {
                 .desc(post.getDescription())
                 .subredditname(post.getSubreddit().getName())
                 .username(post.getUser().getUsername())
+                .votecount(post.getVoteCount())
                 .build();
 
         return postResponseDto;

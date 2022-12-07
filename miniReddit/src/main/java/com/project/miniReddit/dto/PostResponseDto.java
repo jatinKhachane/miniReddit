@@ -15,4 +15,5 @@ public class PostResponseDto {
     private String desc;
     private String subredditname;
     private String username;
+    private Integer votecount;
 }
