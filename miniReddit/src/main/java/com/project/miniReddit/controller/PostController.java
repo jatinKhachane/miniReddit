@@ -11,32 +11,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @PostMapping("/api/posts")
+    @PostMapping("/posts")
     public PostResponseDto createPost(@RequestBody PostRequestDto postRequestDto){
         return postService.createPost(postRequestDto);
     }
 
-    @GetMapping("/api/posts")
+    @GetMapping("/posts")
     public List<PostResponseDto> getAllPosts(){
         return postService.getAllPosts();
     }
 
-    @GetMapping("/api/posts/{id}")
+    @GetMapping("/posts/{id}")
     public PostResponseDto getPost(@PathVariable Long id){
         return postService.getPost(id);
     }
 
-    @GetMapping("/api/posts/user/{u_id}")
+    @GetMapping("/posts/user/{u_id}")
     public List<PostResponseDto> getPostsByUser(@PathVariable Long u_id){
         return postService.getPostsByUser(u_id);
     };
 
-    @GetMapping("/api/posts/subreddit/{s_id}")
+    @GetMapping("/posts/subreddit/{s_id}")
     public List<PostResponseDto> getPostsBySubreddit(@PathVariable Long s_id){
         return postService.getPostsBySubreddit(s_id);
     };
