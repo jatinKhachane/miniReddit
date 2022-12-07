@@ -32,7 +32,16 @@ public class User {
     private boolean enabled;
 
     //posts that are saved by user
-    @ManyToMany(mappedBy = "userswholiked")
-    @ToString.Exclude
-    private List<Post> likedposts;
+//    @ManyToMany(mappedBy = "userswhobookmarked")
+    @ManyToMany
+    @JoinTable(
+            name = "user_savedPosts",
+            joinColumns  = {
+                    @JoinColumn(name = "user_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "post_id")
+            }
+    )
+    private List<Post> savedPosts;
 };

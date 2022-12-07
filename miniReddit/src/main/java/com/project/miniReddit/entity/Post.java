@@ -21,6 +21,7 @@ public class Post {
     @Nullable
     private String description;
     private Integer voteCount;
+    private Integer commentCount;
     private Instant createdDate;
 
     //Author of the Post
@@ -36,6 +37,6 @@ public class Post {
     private Subreddit subreddit;
 
     //Users saved/bookmarked this post
-    @ManyToMany
-    private List<User> userswholiked;
+    @ManyToMany(mappedBy = "savedPosts")
+    private List<User> userswhobookmarked;
 }

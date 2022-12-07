@@ -36,6 +36,10 @@ public class CommentService {
                 .post(post)
                 .user(user)
                 .build();
+
+        post.setCommentCount(post.getCommentCount() + 1);
+
+        postRepository.save(post);
         commentRepository.save(comment);
     }
 

@@ -4,7 +4,7 @@ import com.project.miniReddit.dto.PostResponseDto;
 import com.project.miniReddit.dto.UserResponseDto;
 import com.project.miniReddit.dto.UserUpdateDetailsDto;
 import com.project.miniReddit.entity.Post;
-import com.project.miniReddit.entity.PostLikeRequestDto;
+import com.project.miniReddit.dto.PostBookMarkRequestDto;
 import com.project.miniReddit.entity.User;
 import com.project.miniReddit.exception.SpringRedditException;
 import com.project.miniReddit.repository.PostRepository;
@@ -28,25 +28,31 @@ public class UserService {
 
 
     @Transactional
-    public void likePost(PostLikeRequestDto postLikeRequestDto) {
+    public void bookMarkPost(PostBookMarkRequestDto postBookMarkRequestDto) {
         //get the post and update it
         //get the user and update it
-        User user = userRepository.findById(postLikeRequestDto.getUserId()).get();
-        Post post = postRepository.findById(postLikeRequestDto.getPostId()).get();
+        User user = userRepository.findById(postBookMarkRequestDto.getUserId()).get();
+        Post post = postRepository.findById(postBookMarkRequestDto.getPostId()).get();
 
-        user.getLikedposts().add(post);
-        post.getUserswholiked().add(user);
+        user.getSavedPosts().add(post);
+        post.getUserswhobookmarked().add(user);
 
         userRepository.save(user);
         postRepository.save(post);
 
     }
 
-    public List<PostResponseDto> getAllLikedPost(Long user_id) {
-        User user = userRepository.findById(user_id).get();
-        //get the Posts liked by a user from PostRepository -> find Posts by User
-        List<Post> posts = postRepository.findAllByUserswholiked(user);
-        return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
+    public List<PostResponseDto> getAllBookMarkeddPost(Long user_id) {
+//        User user = userRepository.findById(user_id).get();
+//        //get the Posts liked by a user from PostRepository -> find Posts by User
+//        List<Post> posts = postRepository.findAllByUserswholiked(user);
+        List<Long> postIds = userRepository.getAllPostsBookMarkedByUser(user_id);
+        return postIds.stream().map(this::mapPostIdsToPostResponseDto).collect(Collectors.toList());
+    }
+
+    private PostResponseDto mapPostIdsToPostResponseDto(Long post_id){
+        Post post = postRepository.findById(post_id).orElseThrow(()-> new SpringRedditException("post not found"));
+        return mapToPostResponseDto(post);
     }
 
     private PostResponseDto mapToPostResponseDto(Post post){

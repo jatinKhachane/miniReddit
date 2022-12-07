@@ -3,7 +3,7 @@ package com.project.miniReddit.controller;
 import com.project.miniReddit.dto.PostResponseDto;
 import com.project.miniReddit.dto.UserResponseDto;
 import com.project.miniReddit.dto.UserUpdateDetailsDto;
-import com.project.miniReddit.entity.PostLikeRequestDto;
+import com.project.miniReddit.dto.PostBookMarkRequestDto;
 import com.project.miniReddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +29,14 @@ public class UserController {
     }
 
 
-    @PostMapping("/user/posts/like")
-    public ResponseEntity<Void> likePost(@RequestBody PostLikeRequestDto postLikeRequestDto){
-        userService.likePost(postLikeRequestDto);
+    @PostMapping("/user/posts/bookmark")
+    public ResponseEntity<Void> bookMarkPost(@RequestBody PostBookMarkRequestDto postBookMarkRequestDto){
+        userService.bookMarkPost(postBookMarkRequestDto);
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/user/posts/like/{user_id}")
-    public List<PostResponseDto> getAllLikedPost(@PathVariable Long user_id){
-        return userService.getAllLikedPost(user_id);
+    @GetMapping("/user/posts/bookmark/{user_id}")
+    public List<PostResponseDto> getAllBookMarkeddPost(@PathVariable Long user_id){
+        return userService.getAllBookMarkeddPost(user_id);
     }
 }
