@@ -14,6 +14,9 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query(value = "select * from post where post.subreddit_id=?1", nativeQuery = true)
+    public List<Post> getAllPostsBySubredditId(Long id);
+
+    @Query(value = "select * from post where post.subreddit_id=?1", nativeQuery = true)
     public Page<Post> getAllPostsBySubredditId(Long id, String attr, String direction, Pageable p);
 
     @Query(value = "select * from post where user_id=?1 order by ?2 ?3", nativeQuery = true)

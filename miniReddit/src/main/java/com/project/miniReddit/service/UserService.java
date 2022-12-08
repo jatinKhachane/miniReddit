@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,9 @@ public class UserService {
 
     @Autowired
     private SubredditRepository subredditRepository;
+
+    @Autowired
+    private PostService postService;
 
     @Transactional
     public void bookMarkPost(PostBookMarkRequestDto postBookMarkRequestDto) {
@@ -113,5 +118,19 @@ public class UserService {
         userRepository.followSubredditWithId(user.getUserId(), subreddit_id);
         subreddit.setFollowersCount(subreddit.getFollowersCount()+1);
         subredditRepository.save(subreddit);
+    }
+
+    public List<PostResponseDto> getFeedPosts(Long user_id) {
+        //get the posts from subreddits followed by user
+        List<Long> subredditIdsFollowedByUser = userRepository.findSubredditsFollowedByUser(user_id);
+        List<PostResponseDto> returnList = new ArrayList<PostResponseDto>();
+
+        for(Long id : subredditIdsFollowedByUser){
+            returnList.addAll(postService.getPostsBySubreddit(id));
+        }
+
+        Collections.shuffle(returnList);
+
+        return returnList;
     }
 }

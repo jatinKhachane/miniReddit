@@ -132,4 +132,9 @@ public class PostService {
         List<Post> posts = pages_posts.getContent();
         return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
     }
+
+    public List<PostResponseDto> getPostsBySubreddit(Long s_id) {
+        List<Post> posts = postRepository.getAllPostsBySubredditId(s_id);
+        return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
+    }
 }

@@ -4,6 +4,7 @@ import com.project.miniReddit.dto.PostResponseDto;
 import com.project.miniReddit.dto.UserResponseDto;
 import com.project.miniReddit.dto.UserUpdateDetailsDto;
 import com.project.miniReddit.dto.PostBookMarkRequestDto;
+import com.project.miniReddit.entity.Post;
 import com.project.miniReddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,30 +20,35 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/user/get-details/{user_id}")
-    public UserResponseDto getUserDetails(@PathVariable Long user_id){
+    public UserResponseDto getUserDetails(@PathVariable Long user_id) {
         return userService.getUserDetails(user_id);
     }
 
     @PutMapping("/user/update")
-    public UserResponseDto updateUserDetails(@RequestBody UserUpdateDetailsDto userUpdateDetailsDtoDto){
+    public UserResponseDto updateUserDetails(@RequestBody UserUpdateDetailsDto userUpdateDetailsDtoDto) {
         return userService.updateUserDetails(userUpdateDetailsDtoDto);
     }
 
 
     @PostMapping("/user/posts/bookmark")
-    public ResponseEntity<Void> bookMarkPost(@RequestBody PostBookMarkRequestDto postBookMarkRequestDto){
+    public ResponseEntity<Void> bookMarkPost(@RequestBody PostBookMarkRequestDto postBookMarkRequestDto) {
         userService.bookMarkPost(postBookMarkRequestDto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/user/posts/bookmark/{user_id}")
-    public List<PostResponseDto> getAllBookMarkeddPost(@PathVariable Long user_id){
+    public List<PostResponseDto> getAllBookMarkeddPost(@PathVariable Long user_id) {
         return userService.getAllBookMarkeddPost(user_id);
     }
 
     @PostMapping("/user/follow-subreddit/{subreddit_id}")
-    public ResponseEntity<Void> followSubreddit(@PathVariable Long subreddit_id) throws  Exception{
+    public ResponseEntity<Void> followSubreddit(@PathVariable Long subreddit_id) throws Exception {
         userService.followSubreddit(subreddit_id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/user/feed/{user_id}")
+    public List<PostResponseDto> feedPosts(@PathVariable Long user_id) {
+        return userService.getFeedPosts(user_id);
     }
 }

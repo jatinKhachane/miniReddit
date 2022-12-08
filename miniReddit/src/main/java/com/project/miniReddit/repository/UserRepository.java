@@ -1,6 +1,7 @@
 package com.project.miniReddit.repository;
 
 import com.project.miniReddit.entity.Post;
+import com.project.miniReddit.entity.Subreddit;
 import com.project.miniReddit.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,4 +27,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "select count(*) from user_followed_subreddits where user_id=?1 and subreddit_id=?2",nativeQuery = true)
     int checkIfAlreadyFollowedByUser(Long user_id, Long subreddit_id);
+
+    @Transactional
+    @Query(value = "select us.subreddit_id from user_followed_subreddits us where user_id=?1",nativeQuery = true)
+    List<Long> findSubredditsFollowedByUser(Long user_id);
 }
