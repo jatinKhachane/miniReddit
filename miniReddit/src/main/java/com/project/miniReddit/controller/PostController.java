@@ -33,12 +33,18 @@ public class PostController {
     }
 
     @GetMapping("/posts/user/{u_id}")
-    public List<PostResponseDto> getPostsByUser(@PathVariable Long u_id){
-        return postService.getPostsByUser(u_id);
+    public List<PostResponseDto> getPostsByUser(@PathVariable Long u_id,
+                                                @RequestParam(name = "page", required = false, defaultValue = "0") Integer pNumber,
+                                                @RequestParam(name = "size", required = false, defaultValue = "2") Integer pSize,
+                                                @RequestParam(name = "sortBy", required = false, defaultValue = "newest") String sortParam){
+        return postService.getPostsByUser(u_id, pNumber, pSize, sortParam);
     };
 
     @GetMapping("/posts/subreddit/{s_id}")
-    public List<PostResponseDto> getPostsBySubreddit(@PathVariable Long s_id){
-        return postService.getPostsBySubreddit(s_id);
+    public List<PostResponseDto> getPostsBySubreddit(@PathVariable Long s_id,
+                                                     @RequestParam(name = "page", required = false, defaultValue = "0") Integer pNumber,
+                                                     @RequestParam(name = "size", required = false, defaultValue = "2") Integer pSize,
+                                                     @RequestParam(name = "sortBy", required = false, defaultValue = "newest") String sortParam){
+        return postService.getPostsBySubreddit(s_id, pNumber, pSize, sortParam);
     };
 }

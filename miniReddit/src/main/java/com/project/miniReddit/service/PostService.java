@@ -7,9 +7,13 @@ import com.project.miniReddit.entity.Subreddit;
 import com.project.miniReddit.repository.PostRepository;
 import com.project.miniReddit.repository.SubredditRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.springframework.data.domain.Pageable;;
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,10 +25,8 @@ public class PostService {
 
     @Autowired
     private PostRepository postRepository;
-
     @Autowired
     private SubredditRepository subredditRepository;
-
     @Autowired
     private AuthService authService;
 
@@ -81,13 +83,53 @@ public class PostService {
         return mapToPostResponseDto(post);
     }
 
-    public List<PostResponseDto> getPostsByUser(Long u_id) {
-        List<Post> posts = postRepository.getAllPostsByUserId(u_id);
+    public List<PostResponseDto> getPostsByUser(Long u_id,
+                                                Integer pNumber,
+                                                Integer pSize,
+                                                String sortParam) {
+        Integer pageNumber = pNumber;
+        Integer pageSize = pSize;
+        String attr = null;
+        String direction = null;
+
+        if(sortParam.equals("newest")){ attr = "created_date"; direction = "desc";}
+        else if(sortParam.equals("oldest")){ attr = "created_date"; direction = "asc";}
+        else if(sortParam.equals("comment-count")){ attr = "comment_count"; direction = "desc";};
+
+        Pageable pageable = null;
+
+        if(direction.equals("desc"))
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(attr).descending());
+        else
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(attr).ascending());
+
+        Page<Post> pages_posts = postRepository.getAllPostsByUserId(u_id, attr, direction, pageable);
+        List<Post> posts = pages_posts.getContent();
         return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
     }
 
-    public List<PostResponseDto> getPostsBySubreddit(Long s_id) {
-        List<Post> posts = postRepository.getAllPostsBySubredditId(s_id);
+    public List<PostResponseDto> getPostsBySubreddit(Long s_id,
+                                                     Integer pNumber,
+                                                     Integer pSize,
+                                                     String sortParam) {
+        Integer pageNumber = pNumber;
+        Integer pageSize = pSize;
+        String attr = null;
+        String direction = null;
+
+        if(sortParam.equals("newest")){ attr = "created_date"; direction = "desc";}
+        else if(sortParam.equals("oldest")){ attr = "created_date"; direction = "asc";}
+        else if(sortParam.equals("comment-count")){ attr = "comment_count"; direction = "desc";};
+
+        Pageable pageable = null;
+
+        if(direction.equals("desc"))
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(attr).descending());
+        else
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(attr).ascending());
+
+        Page<Post> pages_posts = postRepository.getAllPostsBySubredditId(s_id, attr, direction, pageable);
+        List<Post> posts = pages_posts.getContent();
         return posts.stream().map(this::mapToPostResponseDto).collect(Collectors.toList());
     }
 }

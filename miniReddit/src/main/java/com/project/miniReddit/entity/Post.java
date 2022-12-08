@@ -26,6 +26,7 @@ public class Post {
 
     //Author of the Post
     @ManyToOne
+    @ToString.Exclude
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -37,6 +38,7 @@ public class Post {
     private Subreddit subreddit;
 
     //Users saved/bookmarked this post
+    @ToString.Exclude
     @ManyToMany(mappedBy = "savedPosts")
     private List<User> userswhobookmarked;
 }
