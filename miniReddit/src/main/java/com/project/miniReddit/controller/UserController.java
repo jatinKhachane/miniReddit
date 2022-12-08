@@ -18,7 +18,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/getDetails/{user_id}")
+    @GetMapping("/user/get-details/{user_id}")
     public UserResponseDto getUserDetails(@PathVariable Long user_id){
         return userService.getUserDetails(user_id);
     }
@@ -38,5 +38,11 @@ public class UserController {
     @GetMapping("/user/posts/bookmark/{user_id}")
     public List<PostResponseDto> getAllBookMarkeddPost(@PathVariable Long user_id){
         return userService.getAllBookMarkeddPost(user_id);
+    }
+
+    @PostMapping("/user/follow-subreddit/{subreddit_id}")
+    public ResponseEntity<Void> followSubreddit(@PathVariable Long subreddit_id) throws  Exception{
+        userService.followSubreddit(subreddit_id);
+        return ResponseEntity.ok().build();
     }
 }

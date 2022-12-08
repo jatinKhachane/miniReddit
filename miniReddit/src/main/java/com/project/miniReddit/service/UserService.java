@@ -5,9 +5,11 @@ import com.project.miniReddit.dto.UserResponseDto;
 import com.project.miniReddit.dto.UserUpdateDetailsDto;
 import com.project.miniReddit.entity.Post;
 import com.project.miniReddit.dto.PostBookMarkRequestDto;
+import com.project.miniReddit.entity.Subreddit;
 import com.project.miniReddit.entity.User;
 import com.project.miniReddit.exception.SpringRedditException;
 import com.project.miniReddit.repository.PostRepository;
+import com.project.miniReddit.repository.SubredditRepository;
 import com.project.miniReddit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,11 @@ public class UserService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private SubredditRepository subredditRepository;
 
     @Transactional
     public void bookMarkPost(PostBookMarkRequestDto postBookMarkRequestDto) {
@@ -93,5 +100,18 @@ public class UserService {
             user.setEmail(userUpdateDetailsDtoDto.getNewEmail());
         userRepository.save(user);
         return mapToUserResponseDto(user);
+    }
+
+    @Transactional
+    public void followSubreddit(Long subreddit_id) throws Exception{
+        User user = authService.getCurrentUser();
+        Subreddit subreddit = subredditRepository.findById(subreddit_id).orElseThrow(()-> new SpringRedditException("Subreddit not found"));
+        int followed = userRepository.checkIfAlreadyFollowedByUser(user.getUserId(), subreddit_id);
+        System.out.println(user.getUserId() + "-" + subreddit_id);
+        if(followed != 0)
+            throw new SpringRedditException("User have already followed this subreddit !!");
+        userRepository.followSubredditWithId(user.getUserId(), subreddit_id);
+        subreddit.setFollowersCount(subreddit.getFollowersCount()+1);
+        subredditRepository.save(subreddit);
     }
 }

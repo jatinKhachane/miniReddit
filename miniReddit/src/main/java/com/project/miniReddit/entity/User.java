@@ -32,7 +32,6 @@ public class User {
     private boolean enabled;
 
     //posts that are saved by user
-//    @ManyToMany(mappedBy = "userswhobookmarked")
     @ManyToMany
     @JoinTable(
             name = "user_savedPosts",
@@ -44,4 +43,18 @@ public class User {
             }
     )
     private List<Post> savedPosts;
+
+
+    //subreddits that are followed by user
+    @ManyToMany
+    @JoinTable(
+            name = "user_followedSubreddits",
+            joinColumns  = {
+                    @JoinColumn(name = "user_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "subreddit_id")
+            }
+    )
+    private List<Subreddit> followedSubreddit;
 };

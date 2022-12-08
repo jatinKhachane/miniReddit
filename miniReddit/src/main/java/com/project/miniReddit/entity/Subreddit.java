@@ -24,6 +24,7 @@ public class Subreddit {
     @NotBlank(message = "Description is required")
     private String description;
     private Instant createdDate;
+    private Long followersCount;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
