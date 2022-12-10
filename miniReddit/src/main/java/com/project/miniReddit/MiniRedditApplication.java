@@ -18,54 +18,8 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @SpringBootApplication
-public class MiniRedditApplication implements CommandLineRunner {
-
+public class MiniRedditApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MiniRedditApplication.class, args);
-	}
-
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private SubredditRepository subredditRepository;
-	@Autowired
-	private PostRepository postRepository;
-
-	@Override
-	@Transactional
-	public void run(String... arg0) {
-
-		/*User user = User.builder()
-				.email("abc@gmail.com")
-				.created(Instant.now())
-				.username("abc")
-				.password("abc")
-				.enabled(false)
-				.build();
-
-		Subreddit subreddit = Subreddit.builder()
-				.createdDate(Instant.now())
-				.description("--")
-				.name("r/java")
-				.user(user)
-				.posts(new ArrayList<Post>())
-				.build();
-
-		Post post = Post.builder()
-				.postName("newPost")
-				.description("--")
-				.user(user)
-				.subreddit(subreddit)
-				.build();
-
-		subreddit.getPosts().add(post);
-
-		postRepository.save(post);
-		subredditRepository.save(subreddit);
-		userRepository.save(user);
-
-		Optional<Subreddit> sub = subredditRepository.findById(subreddit.getSubredditId());
-		System.out.println(sub.get()); */
-
 	}
 }
