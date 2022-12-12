@@ -8,12 +8,10 @@ import lombok.NoArgsConstructor;
 import java.time.Instant;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class AuthenticationResponse {
-    private String authenticationToken;
+public class RefreshTokenDto {
     private String refreshToken;
-    private Instant expiresAt;
-    private String username;
+    private Instant createdDate;
 }

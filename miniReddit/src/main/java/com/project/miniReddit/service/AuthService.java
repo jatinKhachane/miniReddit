@@ -3,6 +3,7 @@ package com.project.miniReddit.service;
 import com.project.miniReddit.Util.JwtUtil;
 import com.project.miniReddit.dto.AuthenticationResponse;
 import com.project.miniReddit.dto.LoginRequest;
+import com.project.miniReddit.dto.RefreshTokenRequest;
 import com.project.miniReddit.dto.SignupRequest;
 import com.project.miniReddit.entity.User;
 import com.project.miniReddit.exception.SpringRedditException;
@@ -19,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -34,6 +36,8 @@ public class AuthService {
     private UserDetailsService userDetailsService;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
 
     public void signup(SignupRequest signupRequest){
         User user = User.builder()
@@ -71,8 +75,15 @@ public class AuthService {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUsername());
         String authenticationToken = jwtUtil.generateToken(userDetails);
 
-        //return new Authentication token along with username
-        return new AuthenticationResponse(authenticationToken, loginRequest.getUsername());
+        //return new Authentication token along with username and refresh token
+        AuthenticationResponse authenticationResponse = AuthenticationResponse.builder()
+                .authenticationToken(authenticationToken)
+                .refreshToken(refreshTokenService.generateRefreshToken().getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(1000 * 60 * 60 * 10))
+                .username(loginRequest.getUsername())
+                .build();
+
+        return authenticationResponse;
     }
 
     public User getCurrentUser(){
@@ -82,4 +93,18 @@ public class AuthService {
         Optional<User> user = userRepository.findByUsername(principal.getUsername());
         return user.orElseThrow(()-> new UsernameNotFoundException("User " + principal.getUsername() + "Not found"));
     }
+
+    public AuthenticationResponse refreshJWTToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        User user = this.getCurrentUser();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(user.getUsername());
+        String newJWT = jwtUtil.generateToken(userDetails);
+        return AuthenticationResponse.builder()
+                .authenticationToken(newJWT)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(1000 * 60 * 60 * 10))
+                .username(user.getUsername())
+                .build();
+    }
+
 }
