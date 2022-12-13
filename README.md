@@ -13,7 +13,10 @@ It’s a backend application similar to social networking forum Reddit.
 •	For Authentication – JWT token along with Refresh token is used for each request<br/>
 
 ## System Design:
-     
+
+The architecture used for the application is monolithic architecture with abstract layering of Controller, Service and DataRepository.<br/>
+The System uses Relational DB (MySQL) for all the services.
+
 ### DB Schema:
 ![alt text](https://github.com/jatinKhachane/miniReddit/blob/main/miniReddit_Arch_v2.png)                     
 ## APIs:
