@@ -13,9 +13,7 @@ It’s a backend application similar to social networking forum Reddit.
 •	For Authentication – JWT token along with Refresh token is used for each request<br/>
 
 ## System Design:
-    
-### Arch diagram
-![alt text](https://github.com/jatinKhachane/miniReddit/blob/main/miniReddit-System.png)    
+     
 ### DB Schema:
 ![alt text](https://github.com/jatinKhachane/miniReddit/blob/main/miniReddit_Arch_v2.png)                     
 ## APIs:
