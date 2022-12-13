@@ -27,7 +27,7 @@ The System uses Relational DB (MySQL) for all the services.
 This backend system is developed using – <br/>
 •	Java<br/>
 • Spring Boot<br/>
-•	Spring Data(to Connect with DB)<br/>
+•	Spring Data<br/>
 •	Spring Security-JWT(for authentication)<br/>
 • MySQL<br/>
 
