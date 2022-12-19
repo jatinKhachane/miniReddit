@@ -16,9 +16,7 @@ It’s a backend application similar to social networking forum Reddit.
 
 The architecture used for the application is monolithic architecture with abstract layering of Controller, Service and DataRepository.<br/>
 The System uses Relational DB (MySQL) for all the services.
-
-### DB Schema:
-![alt text](https://github.com/jatinKhachane/miniReddit/blob/main/miniReddit_Arch_v2.png)                     
+               
 ## APIs:
 | REST Endpoint | Method | Param/Request Body | Description |
 | --- | --- | --- | --- |
@@ -42,7 +40,10 @@ The System uses Relational DB (MySQL) for all the services.
 | /api/user/posts/bookmark/{userId} | GET | User Id | Get All Posts Bookmarked By User |
 | /api/votes | POST | Vote Request | Vote On A Post |
 | /api/user/feed/{userId} | GET | User Id | Generate Feed/Homepage For User From The Subreddits Followed By That User |
-    
+
+### DB Schema:
+![alt text](https://github.com/jatinKhachane/miniReddit/blob/main/miniReddit_Arch_v2.png)      
+
 ## Tech Stack :
 
 This backend system is developed using – <br/>
