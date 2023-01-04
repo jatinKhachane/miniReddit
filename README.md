@@ -1,6 +1,6 @@
 # miniReddit
 
-It’s a backend application similar to social networking forum Reddit. 
+It’s a backend application clone for famous social networking website Reddit. 
 
 ## Features:
 •	User can sign-up to application. <br/>
